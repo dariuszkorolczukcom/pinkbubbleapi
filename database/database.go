@@ -12,10 +12,10 @@ func InitDB() (Conn *gorm.DB) {
 	dbuser := os.Getenv("DBUSER")
 	dbpassword := os.Getenv("DBPASSWORD")
 	dbname := os.Getenv("DBNAME")
-	Conn, err := gorm.Open("mysql", dbuser+":"+dbpassword+"@/"+dbname+"?charset=utf8&parseTime=True")
+	Conn, err := gorm.Open("mysql", dbuser+":"+dbpassword+"@/"+dbname+"?charset=utf8&parseTime=true")
 	if err != nil {
 		panic("failed to connect database")
 	}
-	Conn.DB().Ping()
+	Conn.LogMode(true)
 	return
 }

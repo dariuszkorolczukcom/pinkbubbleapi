@@ -4,39 +4,122 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
+	jwt "github.com/appleboy/gin-jwt"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+
+	a "github.com/dariuszkorolczukcom/pinkbubbleapi/auth"
 	db "github.com/dariuszkorolczukcom/pinkbubbleapi/database"
 	h "github.com/dariuszkorolczukcom/pinkbubbleapi/handlers"
 
-	"github.com/gorilla/handlers"
-	"github.com/gorilla/mux"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
-func homeLink(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "I am an API!\n")
-	fmt.Fprintf(w, "Build by an intelligent being,\n")
-	fmt.Fprintf(w, "Running on a stupid machine.")
+func homeLink(c *gin.Context) {
+	c.JSON(http.StatusOK, "I am an API!\nBuild by an intelligent being,\nRunning on a stupid machine.")
 }
 
 func main() {
 	db.Conn = db.InitDB()
 
 	defer db.Conn.Close()
-	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/", homeLink)
-	// products
-	router.HandleFunc("/products", h.GetProducts).Methods("GET")
-	router.HandleFunc("/product", h.GetProduct).Methods("GET")
-	router.HandleFunc("/product", h.AddProduct).Methods("POST")
-	router.HandleFunc("/product", h.UpdateProduct).Methods("PUT")
-	router.HandleFunc("/product", h.DeleteProduct).Methods("DELETE")
+	r := gin.Default()
 
-	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With"})
-	originsOk := handlers.AllowedOrigins([]string{"*"})
-	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
+	r.Use(cors.New(CORS()))
+	r.Use(Logger())
+	r.Use(gin.Recovery())
+	authMiddleware, err := a.AuthMiddleware()
+	auth := r.Group("/auth")
+	admin := r.Group("/admin")
+	auth.Use(authMiddleware.MiddlewareFunc())
+	admin.Use(authMiddleware.MiddlewareFunc())
+	if err != nil {
+		panic("jwt middleware failed")
+	}
+	r.GET("/", homeLink)
+
+	//users
+	r.POST("/login", authMiddleware.LoginHandler)
+
+	// Refresh time can be longer than token timeout
+	auth.GET("/refresh_token", authMiddleware.RefreshHandler)
+	r.GET("/hello", a.HelloHandler)
+
+	r.NoRoute(authMiddleware.MiddlewareFunc(), func(c *gin.Context) {
+		claims := jwt.ExtractClaims(c)
+		log.Printf("NoRoute claims: %#v\n", claims)
+		c.JSON(404, gin.H{"code": "PAGE_NOT_FOUND", "message": "Page not found"})
+	})
+
+	r.POST("/register", a.RegisterUser)
+
+	// users
+	admin.GET("/users", h.GetUsers)
+
+	// products
+	r.GET("/products", h.GetSortedProducts)
+	r.GET("/product", h.GetProduct)
+	admin.POST("/product", h.AddProduct)
+	admin.PUT("/product", h.UpdateProduct)
+	admin.DELETE("/product", h.DeleteProduct)
 
 	//categories
-	router.HandleFunc("/categories", h.GetCategories)
-	log.Fatal(http.ListenAndServe(":8080", handlers.CORS(originsOk, headersOk, methodsOk)(router)))
+	r.GET("/categories", h.GetCategories)
+	r.GET("/category", h.GetCategory)
+	admin.POST("/category", h.AddCategory)
+	admin.PUT("/category", h.UpdateCategory)
+	admin.DELETE("/category", h.DeleteCategory)
+
+	//images
+	r.GET("/images", h.GetImages)
+	r.GET("/image", h.GetImage)
+	admin.POST("/image", h.AddImage)
+	admin.DELETE("/image", h.DeleteImage)
+
+	r.NoRoute(authMiddleware.MiddlewareFunc(), func(c *gin.Context) {
+		claims := jwt.ExtractClaims(c)
+		log.Printf("NoRoute claims: %#v\n", claims)
+		c.JSON(404, gin.H{"code": "PAGE_NOT_FOUND", "message": "Page not found"})
+	})
+
+	fmt.Println("Starting server...")
+	r.Run(":8080")
+}
+
+func Logger() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		t := time.Now()
+
+		// Set example variable
+		c.Set("example", "12345")
+
+		// before request
+
+		c.Next()
+
+		// after request
+		latency := time.Since(t)
+		log.Print(latency)
+
+		// access the status we are sending
+		status := c.Writer.Status()
+		log.Println(status)
+	}
+}
+
+func CORS() cors.Config {
+	return cors.Config{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders: []string{"X-Requested-With",
+			"Access-Control-Allow-Origin",
+			"Access-Control-Request-Headers",
+			"Content-Type",
+			"XMLHttpRequest",
+			"Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}
 }
