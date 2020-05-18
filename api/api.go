@@ -59,7 +59,8 @@ func main() {
 	admin.GET("/users", h.GetUsers)
 
 	// products
-	r.GET("/products", h.GetSortedProducts)
+	r.GET("/products/sorted", h.GetSortedProducts)
+	r.GET("/products", h.GetProducts)
 	r.GET("/product", h.GetProduct)
 	admin.POST("/product", h.AddProduct)
 	admin.PUT("/product", h.UpdateProduct)
