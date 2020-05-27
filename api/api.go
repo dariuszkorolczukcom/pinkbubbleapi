@@ -61,9 +61,9 @@ func main() {
 	// products
 	r.GET("/products/sorted", h.GetSortedProducts)
 	r.GET("/products", h.GetProducts)
-	r.GET("/product", h.GetProduct)
+	r.GET("/product/:id", h.GetProduct)
 	admin.POST("/product", h.AddProduct)
-	admin.PUT("/product", h.UpdateProduct)
+	admin.PUT("/product	", h.UpdateProduct)
 	admin.DELETE("/product", h.DeleteProduct)
 
 	//categories

@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	a "github.com/dariuszkorolczukcom/pinkbubbleapi/auth"
 	db "github.com/dariuszkorolczukcom/pinkbubbleapi/database"
@@ -16,10 +17,10 @@ func GetSortedProducts(c *gin.Context) {
 	db.Conn.Find(&categories)
 
 	for i, _ := range categories {
-		c := &categories[i]
-		db.Conn.Model(&c).Related(&c.Products)
-		for i, _ := range c.Products {
-			p := &c.Products[i]
+		ca := &categories[i]
+		db.Conn.Model(&c).Related(&ca.Products)
+		for i, _ := range ca.Products {
+			p := &ca.Products[i]
 			db.Conn.Model(&p).Related(&p.Images)
 		}
 	}
@@ -28,15 +29,15 @@ func GetSortedProducts(c *gin.Context) {
 }
 
 func GetProduct(c *gin.Context) {
-	var product m.Product
-
-	if err := c.ShouldBindJSON(&product); err != nil {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	var product m.Product
 
-	db.Conn.First(&product)
-
+	db.Conn.First(&product, id)
+	db.Conn.Model(&product).Related(&product.Images)
 	c.JSON(200, product)
 }
 
@@ -45,10 +46,9 @@ func GetProducts(c *gin.Context) {
 	var products []m.Product
 	db.Conn.Find(&products)
 
-	for _, p := range products {
-		var images []m.Image
-		db.Conn.Model(&p).Related(&images)
-		p.Images = images
+	for i, _ := range products {
+		p := &products[i]
+		db.Conn.Model(&p).Related(&p.Images)
 	}
 
 	c.JSON(200, products)
