@@ -2,8 +2,8 @@
 
 The application uses following libraries:
 
-go get -u golang.org/x/crypto/bcrypt \n
-go get -u github.com/go-sql-driver/mysql \n
+go get -u golang.org/x/crypto/bcrypt <br/>
+go get -u github.com/go-sql-driver/mysql <br/>
 go get github.com/aws/aws-sdk-go \n
 go get github.com/gin-gonic/gin \n
 go get -u github.com/gin-contrib/cors \n
