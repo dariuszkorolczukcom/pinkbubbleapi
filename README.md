@@ -2,14 +2,14 @@
 
 The application uses following libraries:
 
-go get -u golang.org/x/crypto/bcrypt
-go get -u github.com/go-sql-driver/mysql
-go get github.com/aws/aws-sdk-go
-go get github.com/gin-gonic/gin
-go get -u github.com/gin-contrib/cors
-export GO111MODULE=on
-go get -u github.com/appleboy/gin-jwt/v2
-export GO111MODULE=off
-go get -u github.com/jinzhu/gorm
-go get -u github.com/dgrijalva/jwt-go
-go build api
+go get -u golang.org/x/crypto/bcrypt \n
+go get -u github.com/go-sql-driver/mysql \n
+go get github.com/aws/aws-sdk-go \n
+go get github.com/gin-gonic/gin \n
+go get -u github.com/gin-contrib/cors \n
+export GO111MODULE=on \n
+go get -u github.com/appleboy/gin-jwt/v2 \n
+export GO111MODULE=off \n
+go get -u github.com/jinzhu/gorm \n
+go get -u github.com/dgrijalva/jwt-go \n
+go build api \n
