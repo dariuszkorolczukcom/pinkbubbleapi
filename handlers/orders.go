@@ -64,6 +64,12 @@ func AddOrder(c *gin.Context) {
 	order.User = user
 	order.Status = 1
 
+	for j, _ := range order.OrderItems {
+		q := &order.OrderItems[j]
+		db.Conn.Model(&q).Related(&q.Product)
+		q.Price = q.Product.Price
+		order.Price += q.Price * float64(q.Quantity)
+	}
 	fmt.Printf("%+v\n", order)
 
 	db.Conn.Create(&order)
