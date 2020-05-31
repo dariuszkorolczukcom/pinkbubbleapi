@@ -82,9 +82,11 @@ func HelloHandler(c *gin.Context) {
 	user, _ := c.Get(identityKey)
 	fmt.Println(user)
 	c.JSON(200, gin.H{
-		"userID": claims[identityKey],
-		"email":  user.(User).Email,
-		"text":   "Hello World.",
+		"userID":    claims[identityKey],
+		"email":     user.(User).Email,
+		"firstName": user.(User).FirstName,
+		"lastName":  user.(User).LastName,
+		"role":      user.(User).Role,
 	})
 }
 

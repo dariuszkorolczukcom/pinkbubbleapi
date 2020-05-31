@@ -35,6 +35,8 @@ func main() {
 	auth := r.Group("/auth")
 	admin := r.Group("/admin")
 	order := r.Group("/order")
+	info := r.Group("/info")
+	info.Use(authMiddlewareClient.MiddlewareFunc())
 	auth.Use(authMiddleware.MiddlewareFunc())
 	admin.Use(authMiddleware.MiddlewareFunc())
 	order.Use(authMiddlewareClient.MiddlewareFunc())
@@ -48,7 +50,7 @@ func main() {
 
 	// Refresh time can be longer than token timeout
 	auth.GET("/refresh_token", authMiddleware.RefreshHandler)
-	r.GET("/hello", a.HelloHandler)
+	info.GET("/", a.HelloHandler)
 
 	r.NoRoute(authMiddleware.MiddlewareFunc(), func(c *gin.Context) {
 		claims := jwt.ExtractClaims(c)
