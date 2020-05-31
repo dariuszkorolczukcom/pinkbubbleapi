@@ -36,3 +36,21 @@ type Image struct {
 	Name      string `json:"name"`
 	ProductId uint   `json:"productID"`
 }
+
+type Order struct {
+	gorm.Model
+	Status     int         `json:"status"`
+	Price      float64     `json:"price"`
+	OrderItems []OrderItem `gorm:"foreignkey:OrderId" json:"orderItems"`
+	User       User        `gorm:"foreignkey:UserId" json:"user"`
+	UserId     uint
+}
+
+type OrderItem struct {
+	gorm.Model
+	OrderId   uint
+	ProductId uint
+	Quantity  int     `json:"qty"`
+	Price     float64 `json:"pricePerItem"`
+	Product   Product `gorm:"foreignkey:ProductId" json:"product"`
+}

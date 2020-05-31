@@ -49,6 +49,23 @@ func AuthMiddleware() (*jwt.GinJWTMiddleware, error) {
 	return authMiddleware, err
 }
 
+func AuthMiddlewareClient() (*jwt.GinJWTMiddleware, error) {
+	authMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
+		Realm:           "test zone",
+		Key:             []byte("secret key"),
+		Timeout:         time.Hour,
+		MaxRefresh:      time.Hour,
+		IdentityKey:     identityKey,
+		PayloadFunc:     payloadFunc,
+		IdentityHandler: identityHandlerFunc,
+		Authenticator:   authenticatorFunc,
+		Authorizator:    authorizatorFuncClient,
+		Unauthorized:    unauthorizedFunc,
+	})
+
+	return authMiddleware, err
+}
+
 func IsAdmin(c *gin.Context) bool {
 	claims := jwt.ExtractClaims(c)
 	fmt.Println(claims)
@@ -110,6 +127,10 @@ func authorizatorFunc(data interface{}, c *gin.Context) bool {
 	return false
 }
 
+func authorizatorFuncClient(data interface{}, c *gin.Context) bool {
+	return true
+}
+
 func unauthorizedFunc(c *gin.Context, code int, message string) {
 	c.JSON(code, gin.H{
 		"code":    code,
@@ -124,4 +145,9 @@ type User struct {
 	Role      int    `json:"status"`
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
+}
+
+func GetUserId(c *gin.Context) float64 {
+	id := jwt.ExtractClaims(c)
+	return id["ID"].(float64)
 }

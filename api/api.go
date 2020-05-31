@@ -31,10 +31,13 @@ func main() {
 	r.Use(Logger())
 	r.Use(gin.Recovery())
 	authMiddleware, err := a.AuthMiddleware()
+	authMiddlewareClient, err := a.AuthMiddlewareClient()
 	auth := r.Group("/auth")
 	admin := r.Group("/admin")
+	order := r.Group("/order")
 	auth.Use(authMiddleware.MiddlewareFunc())
 	admin.Use(authMiddleware.MiddlewareFunc())
+	order.Use(authMiddlewareClient.MiddlewareFunc())
 	if err != nil {
 		panic("jwt middleware failed")
 	}
@@ -78,6 +81,11 @@ func main() {
 	r.GET("/image", h.GetImage)
 	admin.POST("/image", h.AddImage)
 	admin.DELETE("/image", h.DeleteImage)
+
+	//orders
+	order.GET("/:orderid", h.GetOrder)
+	order.GET("/", h.GetOrders)
+	order.POST("/", h.AddOrder)
 
 	r.NoRoute(authMiddleware.MiddlewareFunc(), func(c *gin.Context) {
 		claims := jwt.ExtractClaims(c)
