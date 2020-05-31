@@ -12,10 +12,10 @@ go get -u github.com/appleboy/gin-jwt/v2 <br/>
 export GO111MODULE=off <br/>
 go get -u github.com/jinzhu/gorm <br/>
 go get -u github.com/dgrijalva/jwt-go <br/>
-go build api \n <br/>
+go build apin <br/>
 
-environment vars:
-export DBUSER=<DATABASE_USER_NAME>
-export DBPASSWORD=<DATABASE_PASSWORD>
-export DBNAME=<DATABASE_NAME>
-export BUCKET_NAME=<S3_BUCKET_NAME>
+environment vars: <br/>
+export DBUSER=<DATABASE_USER_NAME> <br/>
+export DBPASSWORD=<DATABASE_PASSWORD> <br/>
+export DBNAME=<DATABASE_NAME> <br/>
+export BUCKET_NAME=<S3_BUCKET_NAME> <br/>
