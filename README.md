@@ -19,3 +19,5 @@ export DBUSER=<DATABASE_USER_NAME> <br/>
 export DBPASSWORD=<DATABASE_PASSWORD> <br/>
 export DBNAME=<DATABASE_NAME> <br/>
 export BUCKET_NAME=<S3_BUCKET_NAME> <br/>
+export DBHOST=<DBHOST> <br/>
+export DBPORT=<DBPORT> <br/>
