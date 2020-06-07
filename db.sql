@@ -22,8 +22,8 @@ deleted_at DATETIME
 
 CREATE TABLE products (
 id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, 
-name VARCHAR(20) NOT NULL,
-short_description VARCHAR(100), 
+name VARCHAR(100) NOT NULL,
+short_description VARCHAR(255), 
 description TEXT, 
 active INT,
 price INT UNSIGNED NOT NULL,
@@ -36,7 +36,7 @@ deleted_at DATETIME
 
 CREATE TABLE images (
 id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-name VARCHAR(100),
+name VARCHAR(255),
 product_id INT UNSIGNED NOT NULL,
 created_at DATETIME,
 updated_at DATETIME,

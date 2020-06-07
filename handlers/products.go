@@ -18,7 +18,7 @@ func GetSortedProducts(c *gin.Context) {
 
 	for i, _ := range categories {
 		ca := &categories[i]
-		db.Conn.Model(&c).Related(&ca.Products)
+		db.Conn.Model(&ca).Related(&ca.Products)
 		for i, _ := range ca.Products {
 			p := &ca.Products[i]
 			db.Conn.Model(&p).Related(&p.Images)
