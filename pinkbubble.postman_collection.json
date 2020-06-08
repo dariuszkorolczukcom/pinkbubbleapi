@@ -1,0 +1,494 @@
+{
+	"info": {
+		"_postman_id": "45e9afa4-0635-418e-b5c3-a6d69b064f46",
+		"name": "pinkbubble",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "/register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"dkorolczuk86@gmail.com\",\n\t\"password\":\"32167\",\n\t\"role\":1,\n\t\"firstName\":\"Dariusz\",\n\t\"lastName\":\"Korolczuk\"\n}\t"
+						},
+						"url": {
+							"raw": "{{api}}/register",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f3143d06-c30c-4b92-aef5-740c0c8b3a0d",
+								"exec": [
+									"pm.test(\"Status code is 200, set jwt\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.response.to.have.status(200);",
+									"    console.log(jsonData)",
+									"    pm.globals.set(\"jwt\", jsonData.token);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"dkorolczuk86@gmail.com\",\n\t\"password\":\"32167\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/login",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/auth/hello",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NywiZXhwIjoxNTg5MTM5NDYxLCJvcmlnX2lhdCI6MTU4OTEzNTg2MX0.2mxuZnRcax_J3IxMuEHOFRCuqUiC6zaeAaqzHzcVtSo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"dkorolczuk86@gmail.com\",\n\t\"password\":\"32167\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/auth/hello",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"auth",
+								"hello"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/auth/refresh_token",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NywiZXhwIjoxNTg5MTM5NDYxLCJvcmlnX2lhdCI6MTU4OTEzNTg2MX0.2mxuZnRcax_J3IxMuEHOFRCuqUiC6zaeAaqzHzcVtSo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"dkorolczuk86@gmail.com\",\n\t\"password\":\"32167\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/auth/refresh_token",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"auth",
+								"refresh_token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "/products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"name\": \"bath\",\n        \"items\": [\n            {\n                \"id\": 1,\n                \"img\": \"bomb.jpg\",\n                \"price\": 4.99,\n                \"title\": \"card title\",\n                \"subtitle\": \"card subtitle\",\n                \"text\":\n                    \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at massa ac leo congue tincidunt vel at velit.\"\n            },\n            {\n                \"id\": 2,\n                \"category\": 1,\n                \"img\": \"bomb.jpg\",\n                \"price\": 4.99,\n                \"title\": \"card title 2\",\n                \"subtitle\": \"card subtitle\",\n                \"text\":\n                    \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at massa ac leo congue tincidunt vel at velit.\"\n            },\n            {\n                \"id\": 3,\n                \"category\": 1,\n                \"img\": \"bomb.jpg\",\n                \"price\": 4.99,\n                \"title\": \"card title 3\",\n                \"subtitle\": \"card subtitle\",\n                \"text\":\n                    \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at massa ac leo congue tincidunt vel at velit.\"\n            },\n            {\n                \"id\": 3,\n                \"category\": 1,\n                \"title\": \"card title 3\",\n                \"price\": 4.99,\n                \"subtitle\": \"card subtitle\",\n                \"text\":\n                    \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at massa ac leo congue tincidunt vel at velit.\"\n            }\n        ]\n    },\n    {\n        \"name\": \"beauty\",\n        \"items\": [\n            {\n                \"id\": 3,\n                \"category\": 2,\n                \"title\": \"card title 3\",\n                \"price\": 4.99,\n                \"subtitle\": \"card subtitle\",\n                \"text\":\n                    \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at massa ac leo congue tincidunt vel at velit.\"\n            },\n            {\n                \"id\": 3,\n                \"category\": 2,\n                \"title\": \"card title 3\",\n                \"subtitle\": \"card subtitle\",\n                \"text\":\n                    \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at massa ac leo congue tincidunt vel at velit.\"\n            },\n            {\n                \"id\": 3,\n                \"category\": 2,\n                \"title\": \"card title 3\",\n                \"subtitle\": \"card subtitle\",\n                \"text\":\n                    \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at massa ac leo congue tincidunt vel at velit.\"\n            },\n            {\n                \"id\": 3,\n                \"category\": 2,\n                \"title\": \"card title 3\",\n                \"subtitle\": \"card subtitle\",\n                \"text\":\n                    \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at massa ac leo congue tincidunt vel at velit.\"\n            },\n            {\n                \"id\": 3,\n                \"category\": 2,\n                \"title\": \"card title 3\",\n                \"subtitle\": \"card subtitle\",\n                \"text\":\n                    \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at massa ac leo congue tincidunt vel at velit.\"\n            },\n            {\n                \"id\": 3,\n                \"category\": 2,\n                \"title\": \"card title 3\",\n                \"subtitle\": \"card subtitle\",\n                \"text\":\n                    \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at massa ac leo congue tincidunt vel at velit.\"\n            },\n            {\n                \"id\": 3,\n                \"category\": 2,\n                \"title\": \"card title 3\",\n                \"subtitle\": \"card subtitle\",\n                \"text\":\n                    \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at massa ac leo congue tincidunt vel at velit.\"\n            }\n        ]\n    },\n    {\n        \"name\": \"perfumes\",\n        \"items\": [\n            {\n                \"id\": 3,\n                \"category\": 3,\n                \"title\": \"card title 3\",\n                \"subtitle\": \"card subtitle\",\n                \"text\":\n                    \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at massa ac leo congue tincidunt vel at velit.\"\n            }\n        ]\n    }\n]"
+						},
+						"url": {
+							"raw": "{{api}}/products/sorted",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"products",
+								"sorted"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/product",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"ID\":1}"
+						},
+						"url": {
+							"raw": "{{api}}/product",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"img\":\"\",\"price\":500,\"title\":\"bath bomb\",\"subtitle\":\"lavender bomb for bath\",\"text\":\"this is an amazing bath bomb you can use to bath. Your skin will be so fucking smooth you will not be able to believe it\",\"CategoryId\":1}"
+						},
+						"url": {
+							"raw": "{{api}}/admin/product",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"admin",
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"ID\":2,\"img\":\"img\",\"price\":500,\"title\":\"bath bomb updated\",\"subtitle\":\"lavender bomb for bath\",\"text\":\"this is an amazing bath bomb you can use to bath. Your skin will be so fucking smooth you will not be able to believe it\",\"CategoryId\":1,\"DeletedAt\":null}"
+						},
+						"url": {
+							"raw": "{{api}}/admin/product",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"admin",
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/product Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"ID\":4}"
+						},
+						"url": {
+							"raw": "{{api}}/admin/product",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"admin",
+								"product"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "files",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "categories",
+			"item": [
+				{
+					"name": "/categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/categories",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "images",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/order",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"price\": 10,\n    \"orderItems\": [\n        {\n            \"ProductId\": 3,\n            \"qty\": 1,\n            \"pricePerItem\": 4\n        },\n        {\n            \"ProductId\": 1,\n            \"qty\": 2,\n            \"pricePerItem\": 3\n        }\n    ]\n    \"UserId\": 7\n}"
+						},
+						"url": {
+							"raw": "{{api}}/order",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "faq",
+			"item": [
+				{
+					"name": "/faq",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/faq",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/admin/faq",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"admin",
+								"faq"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/faq",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/admin/faq",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"admin",
+								"faq"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/faq",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/admin/faq",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"admin",
+								"faq"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "bb997905-789e-43bb-a5e6-1d9a7d7ce0b3",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "825ee16d-e287-4659-a732-85a42642ff53",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "c8f31fd0-b107-4981-869a-b508b5f70abd",
+			"key": "api",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "db2c7cfd-24db-49d1-9a17-a4b95d864a8e",
+			"key": "email",
+			"value": "",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"id": "7bdb3591-2c88-4019-9be5-794c387e756c",
+			"key": "password",
+			"value": "",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"id": "30c11da6-cecc-4c23-becb-2fd9da1e4e61",
+			"key": "email",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "fa1ac9a6-ccec-4517-ae71-4aced58d12ce",
+			"key": "password",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

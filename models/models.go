@@ -54,3 +54,13 @@ type OrderItem struct {
 	Price     float64 `json:"pricePerItem"`
 	Product   Product `gorm:"foreignkey:ProductId" json:"product"`
 }
+
+type Faq struct {
+	gorm.Model
+	Question string `json:"question"`
+	Answer   string `json:"answer"`
+}
+
+func (u Faq) TableName() string {
+	return "faq"
+}
