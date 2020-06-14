@@ -77,3 +77,22 @@ func AddOrder(c *gin.Context) {
 
 	c.JSON(200, order)
 }
+
+func AddGuestOrder(c *gin.Context) {
+	var order m.Order
+
+	if err := c.ShouldBindJSON(&order); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	for j, _ := range order.OrderItems {
+		q := &order.OrderItems[j]
+		db.Conn.Model(&q).Related(&q.Product)
+	}
+	fmt.Printf("%+v\n", order)
+
+	db.Conn.Save(&order)
+
+	c.JSON(200, order)
+}

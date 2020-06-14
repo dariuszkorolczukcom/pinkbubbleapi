@@ -93,6 +93,7 @@ func main() {
 	order.GET("/:orderid", h.GetOrder)
 	order.GET("/", h.GetOrders)
 	order.POST("/", h.AddOrder)
+	r.POST("/guest_order", h.AddGuestOrder)
 
 	r.NoRoute(authMiddleware.MiddlewareFunc(), func(c *gin.Context) {
 		claims := jwt.ExtractClaims(c)

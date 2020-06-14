@@ -39,11 +39,13 @@ type Image struct {
 
 type Order struct {
 	gorm.Model
+	UserId     uint
+	AddressId  uint
 	Status     int         `json:"status"`
 	Price      float64     `json:"price"`
 	OrderItems []OrderItem `gorm:"foreignkey:OrderId" json:"orderItems"`
 	User       User        `gorm:"foreignkey:UserId" json:"user"`
-	UserId     uint
+	Address    Address     `gorm:"foreignkey:AddressId" json:"address"`
 }
 
 type OrderItem struct {
@@ -53,6 +55,21 @@ type OrderItem struct {
 	Quantity  int     `json:"qty"`
 	Price     float64 `json:"pricePerItem"`
 	Product   Product `gorm:"foreignkey:ProductId" json:"product"`
+}
+
+type Address struct {
+	gorm.Model
+	UserId   uint
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Address1 string `json:"address1"`
+	Address2 string `json:"address2"`
+	Postcode string `json:"postcode"`
+	Town     string `json:"town"`
+}
+
+func (u Address) TableName() string {
+	return "address"
 }
 
 type Faq struct {
