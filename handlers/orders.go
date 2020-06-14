@@ -67,8 +67,6 @@ func AddOrder(c *gin.Context) {
 	for j, _ := range order.OrderItems {
 		q := &order.OrderItems[j]
 		db.Conn.Model(&q).Related(&q.Product)
-		q.Price = q.Product.Price
-		order.Price += q.Price * float64(q.Quantity)
 	}
 	fmt.Printf("%+v\n", order)
 
