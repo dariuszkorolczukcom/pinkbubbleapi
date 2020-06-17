@@ -22,7 +22,6 @@ func (u Category) TableName() string {
 
 type Product struct {
 	gorm.Model
-	Img              string  `json:"img"`
 	Price            float64 `json:"price"`
 	Name             string  `json:"name"`
 	ShortDescription string  `json:"shortDescription"`
