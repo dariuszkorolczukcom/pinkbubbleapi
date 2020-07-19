@@ -18,7 +18,11 @@ import (
 )
 
 func homeLink(c *gin.Context) {
-	c.JSON(http.StatusOK, "I am an API!\nBuild by an intelligent being,\nRunning on a stupid machine.\nv1.1.0")
+	c.JSON(http.StatusOK, `
+	I am an API!
+	Build by an intelligent being,
+	Running on a stupid machine.
+	v1.1.1`)
 }
 
 func main() {
