@@ -1,4 +1,4 @@
-module pinkbubbleapi/handlers
+module github.com/dariuszkorolczukcom/pinkbubbleapi/handlers
 
 go 1.16
 
