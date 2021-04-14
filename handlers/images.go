@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"os"
 
-	a "github.com/dariuszkorolczukcom/pinkbubbleapi/auth/v1"
+	a "github.com/dariuszkorolczukcom/pinkbubbleapi/auth"
 	aws "github.com/dariuszkorolczukcom/pinkbubbleapi/aws"
 	db "github.com/dariuszkorolczukcom/pinkbubbleapi/database"
 	m "github.com/dariuszkorolczukcom/pinkbubbleapi/models"
