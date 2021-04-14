@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	jwt "github.com/appleboy/gin-jwt"
+	jwt "github.com/appleboy/gin-jwt/v2"
 	db "github.com/dariuszkorolczukcom/pinkbubbleapi/database"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
