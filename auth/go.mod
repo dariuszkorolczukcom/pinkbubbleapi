@@ -1,4 +1,4 @@
-module pinkbubbleapi/auth
+module github.com/pinkbubbleapi/auth
 
 go 1.16
 
