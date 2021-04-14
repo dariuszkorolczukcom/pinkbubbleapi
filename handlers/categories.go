@@ -3,7 +3,7 @@ package handlers
 import (
 	"net/http"
 
-	a "github.com/dariuszkorolczukcom/pinkbubbleapi/auth"
+	a "github.com/dariuszkorolczukcom/pinkbubbleapi/auth/v1"
 	db "github.com/dariuszkorolczukcom/pinkbubbleapi/database"
 	m "github.com/dariuszkorolczukcom/pinkbubbleapi/models"
 	"github.com/gin-gonic/gin"

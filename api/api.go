@@ -12,7 +12,7 @@ import (
 
 	a "github.com/dariuszkorolczukcom/pinkbubbleapi/auth"
 	db "github.com/dariuszkorolczukcom/pinkbubbleapi/database"
-	h "github.com/dariuszkorolczukcom/pinkbubbleapi/handlers"
+	h "github.com/dariuszkorolczukcom/pinkbubbleapi/handlers/v1"
 
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )

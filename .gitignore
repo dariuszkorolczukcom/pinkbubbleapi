@@ -1,2 +1,5 @@
 env.sh
 *.log
+*.mod
+*.sum
+.idea
